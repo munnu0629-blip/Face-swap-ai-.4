@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Face Swap</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: #0b0b12;
+      color: white;
+      padding: 20px;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 600px;
+      margin: auto;
+    }
+
+    .header {
+      text-align: center;
+      margin: 25px 0 30px;
+    }
+
+    .header h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #aaa;
+      font-size: 15px;
+    }
+
+    .card {
+      background: #15151f;
+      border: 1px solid #292938;
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 18px;
+    }
+
+    .card h2 {
+      font-size: 18px;
+      margin-bottom: 8px;
+    }
+
+    .card p {
+      color: #999;
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+
+    .upload {
+      display: block;
+      width: 100%;
+      padding: 18px;
+      border: 2px dashed #44445a;
+      border-radius: 14px;
+      text-align: center;
+      color: #bbb;
+      cursor: pointer;
+      background: #101018;
+    }
+
+    .upload:hover {
+      border-color: #7777ff;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .filename {
+      margin-top: 10px;
+      color: #8f8fff;
+      font-size: 13px;
+      word-break: break-word;
+    }
+
+    button {
+      width: 100%;
+      border: none;
+      border-radius: 14px;
+      padding: 17px;
+      font-size: 17px;
+      font-weight: bold;
+      color: white;
+      background: #635bff;
+      cursor: pointer;
+    }
+
+    button:disabled {
+      background: #333342;
+      color: #777;
+      cursor: not-allowed;
+    }
+
+    .status {
+      display: none;
+      text-align: center;
+      padding: 20px;
+      background: #15151f;
+      border-radius: 16px;
+      margin-top: 18px;
+    }
+
+    .loader {
+      width: 35px;
+      height: 35px;
+      border: 4px solid #333;
+      border-top: 4px solid #635bff;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 12px;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    .note {
+      text-align: center;
+      color: #777;
+      font-size: 12px;
+      margin-top: 25px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="header">
+    <h1>🤖 AI Face Swap</h1>
+    <p>Swap a face in your video with AI</p>
+  </div>
+
+  <div class="card">
+    <h2>📸 Source Face</h2>
+    <p>Choose a clear photo containing the face you want to use.</p>
+
+    <label class="upload">
+      Tap to select face photo
+      <input type="file" id="face" accept="image/*">
+    </label>
+
+    <div class="filename" id="faceName"></div>
+  </div>
+
+  <div class="card">
+    <h2>🎥 Target Video</h2>
+    <p>Select the video in which you want to replace the face.</p>
+
+    <label class="upload">
+      Tap to select video
+      <input type="file" id="video" accept="video/*">
+    </label>
+
+    <div class="filename" id="videoName"></div>
+  </div>
+
+  <button id="swapButton" disabled>
+    🔄 Swap Face
+  </button>
+
+  <div class="status" id="status">
+    <div class="loader"></div>
+    <h3>Processing video...</h3>
+    <p style="color:#999;margin-top:8px;">
+      Please wait while the AI processes your video.
+    </p>
+  </div>
+
+  <div class="note">
+    Maximum video length will depend on the AI processing server.
+    <br>
+    Only use images and videos that you have permission to modify.
+  </div>
+
+</div>
+
+<script>
+  const faceInput = document.getElementById("face");
+  const videoInput = document.getElementById("video");
+  const faceName = document.getElementById("faceName");
+  const videoName = document.getElementById("videoName");
+  const swapButton = document.getElementById("swapButton");
+  const status = document.getElementById("status");
+
+  function checkFiles() {
+    if (faceInput.files.length > 0 &&
+        videoInput.files.length > 0) {
+      swapButton.disabled = false;
+    } else {
+      swapButton.disabled = true;
+    }
+  }
+
+  faceInput.addEventListener("change", () => {
+    if (faceInput.files.length > 0) {
+      faceName.textContent =
+        "Selected: " + faceInput.files[0].name;
+    }
+    checkFiles();
+  });
+
+  videoInput.addEventListener("change", () => {
+    if (videoInput.files.length > 0) {
+      videoName.textContent =
+        "Selected: " + videoInput.files[0].name;
+    }
+    checkFiles();
+  });
+
+  swapButton.addEventListener("click", () => {
+    status.style.display = "block";
+
+    // AI backend will be connected here in the next step.
+    swapButton.disabled = true;
+
+    setTimeout(() => {
+      alert(
+        "The website interface is working! Next we will connect the AI face-swap backend."
+      );
+
+      status.style.display = "none";
+      swapButton.disabled = false;
+    }, 2000);
+  });
+</script>
+
+</body>
+  </html>
